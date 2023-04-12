@@ -79,7 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'jb_imdb_rest',
         'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'PASSWORD': '08aa21366',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
