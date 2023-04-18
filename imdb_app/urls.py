@@ -15,8 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 
 from imdb_app import views
+from imdb_app.viwe_set import ActorViewSet, OscarViewSet, MovieViewSet, DirectorViewSet
+
+router = DefaultRouter()
+router.register('actors', ActorViewSet)
+router.register('movies', MovieViewSet)
+router.register('oscar', OscarViewSet)
+router.register('director', DirectorViewSet)
 
 urlpatterns = [
     path('movies', views.get_movies),
@@ -34,3 +42,4 @@ urlpatterns = [
     path('rating/delete/int: rating_id', views.delete_raing),
 
 ]
+urlpatterns.extend(router.urls)

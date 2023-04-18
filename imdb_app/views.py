@@ -91,13 +91,8 @@ def add_actor_to_movie(request, movie_id):
     print(request.data)
     movie = get_object_or_404(Movie, id=movie_id)
     # to chack
-    postman_data = request.data(mutable=True)
-    postman_data.objects.movie_id = movie
-    print(postman_data)
-    actor_id = postman_data['actor_id']
-    print(actor_id)
-    actor = get_object_or_404(Actor, id=actor_id)
-    postman_data['movie_id'] = [movie.id]
+    postman_data = request.data.copy()
+    postman_data['movie_id'] = movie_id
     print(postman_data)
     serializer = CreateMovieActorSerializers(data=postman_data)
     serializer.is_valid(raise_exception=True)

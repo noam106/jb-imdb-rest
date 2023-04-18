@@ -103,3 +103,18 @@ class UpdateMovieActor(serializers.ModelSerializer):
         fields = "__all__"
         extra_kwargs = {"id": {"read_only": True}}
 
+
+class DirectorSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = Director
+        fields = "__all__"
+        extra_kwargs = {"id": {"read_only": True}}
+
+
+class OscarSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = Oscar
+        fields = "__all__"
+        extra_kwargs = {"id": {"read_only": True}}

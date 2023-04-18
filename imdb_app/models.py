@@ -4,9 +4,17 @@ import datetime
 from django.core.exceptions import ValidationError
 # Create your models here.
 
+
 def validete_actoe_age(birth_year):
     if datetime.datetime.now().year - int(birth_year) < 5:
         raise ValidationError(" the actor is to young")
+
+
+def validate_oscar_year(oscar_year: int):
+    if datetime.datetime.now().year < int(oscar_year):
+        raise ValidationError("you cant enter an oscar from the future")
+    if int(oscar_year) < 1929:
+        raise ValidationError('There was no oscar before 1929')
 
 class Actor(models.Model):
 
@@ -28,7 +36,7 @@ class Movie(models.Model):
     duration_in_min = models.FloatField(db_column='duration', null=False)
     release_year = models.IntegerField(db_column='year', null=False)
     pic_url = models.URLField(max_length=512, db_column='pic_url', null=True)
-
+    director = models.ForeignKey("Director", on_delete=models.CASCADE, null=True, blank=True)
     actors = models.ManyToManyField(Actor, through='MovieActor')
 
     # def __str__(self):
@@ -65,3 +73,20 @@ class MovieActor(models.Model):
 
     class Meta:
         db_table = 'movie_actors'
+
+
+class Oscar(models.Model):
+    year = models.IntegerField(db_column='year', null=False, validators=[validate_oscar_year])
+    nominations = models.CharField(max_length=256, db_column='nominations', null=False, blank=False)
+    actor = models.ForeignKey(Actor, on_delete=models.CASCADE, null=True, blank=True)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    director = models.ForeignKey("Director", on_delete=models.CASCADE, null=True, blank=True)
+
+
+class Director(models.Model):
+    name = models.CharField(max_length=256, db_column='name', null=False, blank=False)
+    birth_year = models.IntegerField(db_column='birth_year', null=True, blank=True, validators=[validete_actoe_age])
+
+# class Nominations(models.Model):
+#     nominations = models.CharField(max_length=256, db_column='nomination', null=False, blank=False)
+#     movie = m
